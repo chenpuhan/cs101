@@ -1,12 +1,13 @@
-Milestone1
+s(dna)
 def s(dna):
     dna = dna.upper()
     count_A = dna.count('A')
     count_C = dna.count('C')
     count_G = dna.count('G')
     count_T = dna.count('T')
-    return count_A,count_C,count_G,count_T
-    
+    return count_A, count_C, count_G, count_T
+
+dna2rna(dna)
 def dna2rna(dna):
     rna = ''
     for symbol in dna:
@@ -18,21 +19,198 @@ def dna2rna(dna):
             rna = rna + 'G'
         elif symbol == 'G':
             rna = rna + 'C'
-    return rna 
+    return dna.replace('T','U')
 
+
+reverse_complement(dna)
 def reverse(dna):
 	reverse =’’
 for symbol in dna:
         		if symbol == 'A':
-            		reverse = rna + 'T'
+            		reverse = reverse + 'T'
         		elif symbol == 'T':
-           			reverse = rna + 'A'
+           			reverse = reverse + 'A'
         		elif symbol == 'C':
-            		reverse = rna + 'G'
+            		reverse = reverse + 'G'
         		elif symbol == 'G':
-            		reverse = rna + 'C'
+            		reverse = reverse + 'C'
       	return reverse
 def reverse_complement(dna):
 	reverse_dna = dna[ : :-1]
 	reverse_complement = reverse(reverse_dna)
 	return reverse_complement
+
+
+
+
+#jacqui’s code
+Mendels_law
+def mendels_law(hom,het,rec):
+    
+    denominator = hom + het + rec # total breeders
+    # probabilities for the first breeder
+    prob_hom = hom/denominator #AA
+    prob_het = het/denominator #Aa
+    prob_rec = rec/denominator #aa
+    
+    new_d = denominator - 1 #new denominator after first breeder
+    
+    prob_dom_hom_first = prob_hom
+    prob_dom_het_first = prob_het*(hom/new_d + (het-1)/new_d*0.75 + 0.5*rec/new_d)
+    prob_dom_rec_first = prob_rec*(hom/new_d + 0.5*(het/new_d))
+    
+    return prob_dom_hom_first + prob_dom_het_first + prob_dom_rec_first
+
+print(mendels_law(2,2,2))
+print(mendels_law(1,1,0))
+print(mendels_law(4,0,2))
+print(mendels_law(0,4,0))
+             
+        
+Fibonacci_rabbits
+def fibonacci_rabbits(n,k):
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1
+    else:
+        return fibonacci_rabbits(n-1,k) + k * fibonacci_rabbits(n-2,k)
+    
+print(fibonacci_rabbits(1,3))
+print(fibonacci_rabbits(2,3))
+print(fibonacci_rabbits(3,3))
+print(fibonacci_rabbits(4,3))
+print(fibonacci_rabbits(5,3))
+print(fibonacci_rabbits(6,3))
+
+#this code accepts two integers and calculates the total number rabbit pairs after n months
+
+GC_content
+def GC_content(dna_list):
+    percent=0
+    maxpercent=0
+    maxstrings=''
+    for i in dna_list:
+        percent=100*((i.count('C')+i.count('G'))/len(i))
+    if percent>maxpercent:
+        maxpercent=percent
+        maxstring=dna_list.index(i)
+    return (maxstring,maxpercent)
+
+rna2codon
+def rna2codon(rna):
+    genetic_code = {
+        'UUU': 'F', 'UUC': 'F', 'UUA': 'L', 'UUG': 'L',        'CUU': 'L', 'CUC': 'L', 'CUA': 'L', 'CUG': 'L',
+        'AUU': 'I', 'AUC': 'I', 'AUA': 'I', 'AUG': 'M',        'GUU': 'V', 'GUC': 'V', 'GUA': 'V', 'GUG': 'V',
+
+        'UCU': 'S', 'UCC': 'S', 'UCA': 'S', 'UCG': 'S',        'CCU': 'P', 'CCC': 'P', 'CCA': 'P', 'CCG': 'P',
+        'ACU': 'T', 'ACC': 'T', 'ACA': 'T', 'ACG': 'T',        'GCU': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A',
+
+        'UAU': 'Y', 'UAC': 'Y', 'UAA': '*', 'UAG': '*',        'CAU': 'H', 'CAC': 'H', 'CAA': 'Q', 'CAG': 'Q',
+        'AAU': 'N', 'AAC': 'N', 'AAA': 'K', 'AAG': 'K',        'GAU': 'D', 'GAC': 'D', 'GAA': 'E', 'GAG': 'E',
+
+        'UGU': 'C', 'UGC': 'C', 'UGA': '*', 'UGG': 'W',        'CGU': 'R', 'CGC': 'R', 'CGA': 'R', 'CGG': 'R',
+        'AGU': 'S', 'AGC': 'S', 'AGA': 'R', 'AGG': 'R',        'GGU': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G',
+    }
+    allowed_codons = set('ACGU')
+    n = 3
+    triplets = [(rna[i:i+n]) for i in range(0, len(rna), n)]
+    amino_list = []
+    a = 0
+    codon = ""
+    for i in range(len(triplets)):
+        amino = genetic_code.get(triplets[a])
+        if amino == '*':
+            return codon.join(amino_list)
+        amino_list.append(amino)
+        a += 1
+    return codon.join(amino_list)   
+#this code separates a given rna string into triplets and then changes them into their corresponding amino acid letter
+#if a letter isn't given for a triplet, the function halts and returns whatever amino acid letters it has gotten thus far/until the asterisk
+
+#sophia's code:
+locate_substring
+def locate_substring(dna_snippet, dna):
+    position_list = []
+    beginning_index = 0
+    for i in range(len(dna)):
+        locate = dna.find(dna_snippet, beginning_index, 16) 
+        if locate != -1:
+            position_list.append(locate)
+            beginning_index +=1
+            locate += 1
+        else:
+            beginning_index += 1
+            locate += 1
+    return (list(set(position_list)))
+
+
+
+#sophia’s code: 
+hamming_dist
+def hamming_dist(dna1, dna2):
+    count = 0
+    similarities = []
+    for i, j in zip(dna1, dna2):
+        if i != j:
+            count += 1
+    return count 
+#the function accepts two dna sequences and then returns the number of
+#differences between the two strings
+
+
+#Noel’s code:
+splice_rna(dna, intron_list)
+
+
+
+genetic_code = {
+    'UUU': 'F', 'UUC': 'F', 'UUA': 'L', 'UUG': 'L', 'CUU': 'L', 'CUC': 'L', 'CUA': 'L', 'CUG': 'L',
+    'AUU': 'I', 'AUC': 'I', 'AUA': 'I', 'AUG': 'M', 'GUU': 'V', 'GUC': 'V', 'GUA': 'V', 'GUG': 'V',
+    'UCU': 'S', 'UCC': 'S', 'UCA': 'S', 'UCG': 'S', 'CCU': 'P', 'CCC': 'P', 'CCA': 'P', 'CCG': 'P',
+    'ACU': 'T', 'ACC': 'T', 'ACA': 'T', 'ACG': 'T', 'GCU': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A',
+    'UAU': 'Y', 'UAC': 'Y', 'UAA': '*', 'UAG': '*', 'CAU': 'H', 'CAC': 'H', 'CAA': 'Q', 'CAG': 'Q',
+    'AAU': 'N', 'AAC': 'N', 'AAA': 'K', 'AAG': 'K', 'GAU': 'D', 'GAC': 'D', 'GAA': 'E', 'GAG': 'E',
+    'UGU': 'C', 'UGC': 'C', 'UGA': '*', 'UGG': 'W', 'CGU': 'R', 'CGC': 'R', 'CGA': 'R', 'CGG': 'R',
+    'AGU': 'S', 'AGC': 'S', 'AGA': 'R', 'AGG': 'R', 'GGU': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G',}
+
+def proteins( rna ):
+    protein = ""
+    introns = 0
+    while ( introns < len( rna )):
+        if( genetic_code[rna[introns : introns + 3]]== '*' ):
+            break
+        protein += genetic_code[rna[introns : introns + 3]]
+        introns += 3
+    protein = protein.replace( '*', '' )
+    return protein
+
+def splice_rna( dna, intron_list ):
+    for introns in intron_list:
+        dna = dna.replace( introns, "" )
+    rna = dna.replace( "T", "U" )
+    exons = proteins( rna )
+    return exons
+
+#Noel’s Code:
+count_dom_phenotype(genotypes)
+def count_dom_phenotype(genotypes):
+# there has to be one couple “AA” in each
+    offspring = (1*genotypes[0] + 1*genotypes[1] + 1*genotypes[2] + 0.75*genotypes[3] + 0.5*genotypes[4] + 0*genotypes[5]) * 2
+    return offspring 
+
+#Noel’s Code:
+source_rna(protein)
+
+def source_rna(protein):
+    gc = {'F':2,'L':6,'I':3,'M':1,
+             'V':4,'S':6,'P':4,'T':4,
+             'A':4,'Y':2,'H':2,'Q':2,
+             'N':2,'K':2,'D':2,'E':2,
+             'C':2,'W':1,'R':6,'G':4}
+    n = 1
+    for amino in protein:
+        n = n * gc[amino]
+    return n * 3 % 1000000
+
+
