@@ -1,3 +1,4 @@
+Milestone1
 def s(dna):
     dna = dna.upper()
     count_A = dna.count('A')
