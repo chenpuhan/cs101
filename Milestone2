@@ -1,0 +1,34 @@
+def find_splice(dna_motif, dna):
+    res = []
+    i = 0
+    for j in range(len(dna_motif)):
+        #loop over each element in dna_motif, passes those that does not match
+        while dna_motif[j] != dna[i]:
+            i += 1
+        #when this loop ends, it means that it finally gets the same char with dna
+        res.append(i)
+        #now check for the next char in dna_motif
+        i += 1 
+    return res
+print(find_splice('GTA','ACGACATCACGTGACG'))
+
+def shared_motif(dna_list):
+    #the idea is first find out all the common substrings, and put them in a list
+    possiblesubstrings = []
+    for i in range(len(dna_list[0])):
+        for j in range(i+1,len(dna_list[0])+1):
+            #this is all substrings of the first dna in dna_list, including both common in other dna or unique
+            allsubstring = dna_list[0][i:j]
+            check = True
+            for k in range(1,len(dna_list)):
+                #filter out the substrings that are not common in other dna
+                if allsubstring not in dna_list[k]:
+                    check = False
+                    break
+            if check:
+                # put all the common substrings in this list
+                    possiblesubstrings.append(allsubstring)
+    #using max method to find the longest element in the list
+    result = max(possiblesubstrings, key = len, default='')
+    return result
+print(shared_motif(["GATTACA", "TAGACCA", "ATACA"]))
